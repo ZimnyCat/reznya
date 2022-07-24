@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "zimnycat.reznya.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "MClientConnection",
+    "MClientPlayerEntity",
+    "MMinecraftClient",
+    "MKeyboard"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
