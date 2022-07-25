@@ -24,7 +24,8 @@ public class AutoBed extends UtilBase {
     public AutoBed() {
         super(
                 "AutoBed", "Places beds to kill players",
-                new SettingNum("delay", 100, 1, 1000)
+                new SettingNum("delay", 100, 1, 1000),
+                new SettingNum("range", 5, 1, 6)
         );
     }
 
@@ -37,14 +38,14 @@ public class AutoBed extends UtilBase {
             if (mc.player.isSneaking() || p == mc.player || p.getBlockPos().equals(mc.player.getBlockPos())) continue;
 
             BlockPos up = p.getBlockPos().up();
-            if (mc.player.distanceTo(p) < 5 && mc.world.getBlockState(up).getBlock().asItem() instanceof BedItem) {
+            if (mc.player.distanceTo(p) < setting("range").num().value && mc.world.getBlockState(up).getBlock().asItem() instanceof BedItem) {
                 mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
                         new BlockHitResult(new Vec3d(up.getX(), up.getY(), up.getZ()), Direction.UP, up, true)
                 );
                 break;
             }
 
-            if (mc.player.distanceTo(p) >= 5 || p.isDead() || !mc.world.getBlockState(up).isAir()
+            if (mc.player.distanceTo(p) >= 8 || p.isDead() || !mc.world.getBlockState(up).isAir()
                     || !(mc.player.getMainHandStack().getItem() instanceof BedItem)) continue;
 
             HashMap<BlockPos, Float> poses = new HashMap<>();
@@ -55,6 +56,7 @@ public class AutoBed extends UtilBase {
 
             for (Map.Entry pos : poses.entrySet()) {
                 BlockPos pos2 = (BlockPos) pos.getKey();
+                if (Math.sqrt(pos2.getSquaredDistance(mc.player.getPos())) >= setting("range").num().value) continue;
 
                 if (mc.world.getBlockState(pos2).isAir() || mc.world.getBlockState(pos2).getBlock().equals(Blocks.FIRE)) {
                     mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(

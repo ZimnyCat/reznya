@@ -4,13 +4,16 @@ import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.profiling.jfr.event.PacketSentEvent;
 import zimnycat.reznya.base.UtilBase;
 import zimnycat.reznya.base.settings.SettingNum;
+import zimnycat.reznya.events.SendPacketEvent;
 import zimnycat.reznya.events.TickEvent;
 import zimnycat.reznya.libs.Delay;
 import zimnycat.reznya.libs.Finder;
@@ -24,7 +27,8 @@ public class HoleTrap extends UtilBase {
     public HoleTrap() {
         super(
                 "HoleTrap", "Traps players in holes",
-                new SettingNum("delay", 200, 1, 1000)
+                new SettingNum("delay", 100, 1, 1000),
+                new SettingNum("range", 5, 1, 6)
         );
     }
 
@@ -34,7 +38,7 @@ public class HoleTrap extends UtilBase {
         if (!delay.check()) return;
 
         for (PlayerEntity player : mc.world.getPlayers()) {
-            if (mc.player.distanceTo(player) >= 7 || player == mc.player
+            if (mc.player.distanceTo(player) >= 8 || player == mc.player
                     || player.getY() != Math.floor(player.getY())
                     || (player.getX() - Math.floor(player.getX())) > 0.7
                     || (player.getX() - Math.floor(player.getX())) < 0.3
@@ -56,7 +60,7 @@ public class HoleTrap extends UtilBase {
                 if (mc.world.getBlockState(pos).getBlock().equals(Blocks.OBSIDIAN)
                         || mc.world.getBlockState(pos).getBlock().equals(Blocks.BEDROCK)) continue;
 
-                if (mc.world.getBlockState(pos).isAir() && Math.sqrt(pos.getSquaredDistance(mc.player.getPos())) < 5) {
+                if (mc.world.getBlockState(pos).isAir() && Math.sqrt(pos.getSquaredDistance(mc.player.getPos())) < setting("range").num().value) {
                     Integer slot = Finder.find(Items.OBSIDIAN, true);
                     if (slot == null) return;
 
