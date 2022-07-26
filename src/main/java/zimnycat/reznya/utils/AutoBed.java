@@ -14,6 +14,7 @@ import zimnycat.reznya.base.UtilBase;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.events.TickEvent;
 import zimnycat.reznya.libs.Delay;
+import zimnycat.reznya.libs.WorldLib;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,10 +63,7 @@ public class AutoBed extends UtilBase {
                     mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
                             (float) pos.getValue(), mc.player.getPitch(), true)
                     );
-                    mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
-                            new BlockHitResult(new Vec3d(pos2.getX(), pos2.getY(), pos2.getZ()), Direction.UP, pos2, true)
-                    );
-                    mc.player.swingHand(Hand.MAIN_HAND);
+                    WorldLib.placeBlock(pos2, mc.player.getInventory().selectedSlot);
                     break;
                 }
             }
