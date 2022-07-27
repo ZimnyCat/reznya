@@ -1,8 +1,10 @@
-package zimnycat.reznya.base;
+package zimnycat.reznya.commands;
 
-import zimnycat.reznya.base.settings.SettingBool;
-import zimnycat.reznya.base.settings.SettingNum;
-import zimnycat.reznya.base.settings.SettingString;
+import zimnycat.reznya.base.*;
+import zimnycat.reznya.settings.SettingBool;
+import zimnycat.reznya.settings.SettingNum;
+import zimnycat.reznya.settings.SettingString;
+import zimnycat.reznya.Utilrun;
 
 import java.util.Arrays;
 

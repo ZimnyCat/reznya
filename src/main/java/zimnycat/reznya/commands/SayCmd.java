@@ -1,7 +1,7 @@
 package zimnycat.reznya.commands;
 
 import zimnycat.reznya.base.CommandBase;
-import zimnycat.reznya.base.Utilrun;
+import zimnycat.reznya.Utilrun;
 
 public class SayCmd extends CommandBase {
     public SayCmd() { super("say", "Send a message to the chat"); }

@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import zimnycat.reznya.base.UtilBase;
-import zimnycat.reznya.base.settings.SettingNum;
+import zimnycat.reznya.settings.SettingNum;
 import zimnycat.reznya.events.TickEvent;
 import zimnycat.reznya.libs.Delay;
 import zimnycat.reznya.libs.Finder;

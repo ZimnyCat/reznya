@@ -1,7 +1,9 @@
-package zimnycat.reznya.base;
+package zimnycat.reznya.commands;
 
 import com.google.gson.*;
 import net.minecraft.client.util.InputUtil;
+import zimnycat.reznya.base.CommandBase;
+import zimnycat.reznya.Utilrun;
 import zimnycat.reznya.libs.ModFile;
 
 import java.util.Arrays;

@@ -1,9 +1,9 @@
-package zimnycat.reznya.base.settings;
+package zimnycat.reznya.settings;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import zimnycat.reznya.base.SettingBase;
-import zimnycat.reznya.base.Utilrun;
+import zimnycat.reznya.Utilrun;
 
 public class SettingNum extends SettingBase {
     public double value;

@@ -1,8 +1,8 @@
 package zimnycat.reznya.base;
 
-import zimnycat.reznya.base.settings.SettingBool;
-import zimnycat.reznya.base.settings.SettingNum;
-import zimnycat.reznya.base.settings.SettingString;
+import zimnycat.reznya.settings.SettingBool;
+import zimnycat.reznya.settings.SettingNum;
+import zimnycat.reznya.settings.SettingString;
 
 public class SettingBase {
     public String name;

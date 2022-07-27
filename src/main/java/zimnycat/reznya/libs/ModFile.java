@@ -1,6 +1,6 @@
 package zimnycat.reznya.libs;
 
-import zimnycat.reznya.base.Utilrun;
+import zimnycat.reznya.Utilrun;
 
 import java.io.FileWriter;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package zimnycat.reznya.base;
+package zimnycat.reznya;
 
 import com.google.common.eventbus.EventBus;
 import net.fabricmc.api.ModInitializer;
@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import zimnycat.reznya.base.Manager;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
