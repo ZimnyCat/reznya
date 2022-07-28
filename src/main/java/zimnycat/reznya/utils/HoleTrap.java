@@ -32,7 +32,7 @@ public class HoleTrap extends UtilBase {
         if (!delay.check()) return;
 
         for (PlayerEntity player : mc.world.getPlayers()) {
-            if (mc.player.distanceTo(player) >= 8 || player == mc.player
+            if (mc.player.distanceTo(player) >= 8 || player == mc.player || player.getBlockPos().equals(mc.player.getBlockPos())
                     || player.getY() != Math.floor(player.getY())
                     || (player.getX() - Math.floor(player.getX())) > 0.7
                     || (player.getX() - Math.floor(player.getX())) < 0.3
