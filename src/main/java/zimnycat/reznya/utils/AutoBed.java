@@ -63,8 +63,7 @@ public class AutoBed extends UtilBase {
                     mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
                             (float) pos.getValue(), mc.player.getPitch(), true)
                     );
-                    WorldLib.placeBlock(pos2, mc.player.getInventory().selectedSlot);
-                    break;
+                    if (WorldLib.placeBlock(pos2, mc.player.getInventory().selectedSlot)) break;
                 }
             }
         }

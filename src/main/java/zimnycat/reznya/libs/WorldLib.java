@@ -16,9 +16,9 @@ import java.util.List;
 public class WorldLib {
     static MinecraftClient mc = MinecraftClient.getInstance();
 
-    public static void placeBlock(BlockPos pos, int slot) {
+    public static boolean placeBlock(BlockPos pos, int slot) {
         Box posBox = new Box(pos);
-        for (Entity e : mc.world.getEntities()) if (posBox.intersects(e.getBoundingBox())) return;
+        for (Entity e : mc.world.getEntities()) if (posBox.intersects(e.getBoundingBox())) return false;
 
         int pre = mc.player.getInventory().selectedSlot;
         mc.player.getInventory().selectedSlot = slot;
@@ -29,6 +29,7 @@ public class WorldLib {
         mc.player.swingHand(Hand.MAIN_HAND);
 
         mc.player.getInventory().selectedSlot = pre;
+        return true;
     }
 
     public static boolean isHole(BlockPos p) {
