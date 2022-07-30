@@ -15,8 +15,8 @@ import zimnycat.reznya.events.SendPacketEvent;
 
 @Mixin(ClientConnection.class)
 public class MClientConnection {
-    @Inject(method = "send(Lnet/minecraft/network/Packet;Lio/netty/util/concurrent/GenericFutureListener;)V", at = @At("HEAD"), cancellable = true)
-    private void send(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>> packetCallback, CallbackInfo ci) {
+    @Inject(method = "send(Lnet/minecraft/network/Packet;)V", at = @At("HEAD"), cancellable = true)
+    private void send(Packet<?> packet, CallbackInfo ci) {
         SendPacketEvent event = new SendPacketEvent(packet);
         Utilrun.bus.post(event);
         if (event.isCancelled()) ci.cancel();

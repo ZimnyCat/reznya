@@ -72,16 +72,16 @@ public class Manager {
     @Subscribe
     public void command(SendPacketEvent event) {
         if (!(event.getPacket() instanceof ChatMessageC2SPacket)) return;
-        String msg = ((ChatMessageC2SPacket) event.getPacket()).getChatMessage();
+        String msg = ((ChatMessageC2SPacket) event.getPacket()).chatMessage();
 
         if (!msg.startsWith(Utilrun.prefix)) return;
         event.setCancelled(true);
 
         if (msg.equals(Utilrun.prefix)) {
             mc.inGameHud.getChatHud().addMessage(Text.of(
-                    Utilrun.highlight(">> ") + "Commands (" + Utilrun.highlight(String.valueOf(Manager.commands.size())) + "):"
+                    Utilrun.highlight(">> ") + "Commands (" + Utilrun.highlight(String.valueOf(commands.size())) + "):"
             ));
-            Manager.commands.forEach(c -> mc.inGameHud.getChatHud().addMessage(Text.of(
+            commands.forEach(c -> mc.inGameHud.getChatHud().addMessage(Text.of(
                     Utilrun.highlight(">> ") + c.getName() + Utilrun.highlight(" - ") + c.getDesc()
             )));
             return;
@@ -94,7 +94,7 @@ public class Manager {
     public void saveUtilsData(ClientStopEvent event) {
         Utilrun.logger.info("Saving utils data");
         JsonObject data = new JsonObject();
-        Manager.utils.forEach(u -> {
+        utils.forEach(u -> {
             JsonObject util = new JsonObject();
             util.addProperty("enabled", u.isEnabled());
             if (!u.getSettings().isEmpty()) {
