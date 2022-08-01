@@ -7,7 +7,6 @@ import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.ArrayUtils;
-import org.reflections.Reflections;
 import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.base.settings.SettingString;
@@ -25,28 +24,9 @@ public class Manager {
     public static List<CommandBase> commands = new ArrayList<>();
     public static List<UtilBase> utils = new ArrayList<>();
 
-    public void init() {
-        Utilrun.logger.info("Loading commands");
-        Reflections ref = new Reflections(this.getClass().getPackage().getName().replace("base", "commands"));
-        ref.getSubTypesOf(CommandBase.class).forEach(clazz -> {
-            try {
-                commands.add(clazz.getConstructor().newInstance());
-            } catch (Exception e) {
-                Utilrun.logger.info("Failed to load " + clazz.getSimpleName());
-            }
-        });
-        commands.add(new UtilCmd());
+    public static void loadData() {
         commands.add(new BindCmd());
-
-        Utilrun.logger.info("Loading utils");
-        ref = new Reflections(this.getClass().getPackage().getName().replace("base", "utils"));
-        ref.getSubTypesOf(UtilBase.class).forEach(clazz -> {
-            try {
-                utils.add(clazz.getConstructor().newInstance());
-            } catch (Exception e) {
-                Utilrun.logger.info("Failed to load " + clazz.getSimpleName());
-            }
-        });
+        commands.add(new UtilCmd());
 
         Utilrun.logger.info("Loading utils data");
         ModFile modFile = new ModFile("utils.json");
