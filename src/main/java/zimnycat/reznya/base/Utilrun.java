@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import zimnycat.reznya.commands.NearCmd;
 import zimnycat.reznya.commands.SayCmd;
 import zimnycat.reznya.utils.AutoBed;
 import zimnycat.reznya.utils.AutoRefill;
@@ -29,6 +30,7 @@ public class Utilrun implements ModInitializer {
 			path.toFile().mkdirs();
 		}
 
+		Manager.commands.add(new NearCmd());
 		Manager.commands.add(new SayCmd());
 
 		Manager.utils.add(new AutoBed());
