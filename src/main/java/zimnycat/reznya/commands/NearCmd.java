@@ -30,8 +30,8 @@ public class NearCmd extends CommandBase {
 
             AbstractClientPlayerEntity player = players.get(element);
             clientMessage(player.getDisplayName().getString() + Utilrun.highlight(" - ")
-                    + player.getHealth() + Utilrun.highlight(" - ")
-                    + mc.player.networkHandler.getPlayerListEntry(player.getUuid()).getLatency());
+                    + (player.getHealth() + player.getAbsorptionAmount()) + Utilrun.highlight(" - ")
+                    + mc.player.networkHandler.getPlayerListEntry(player.getUuid()).getLatency() + "ms");
         }
     }
 }
