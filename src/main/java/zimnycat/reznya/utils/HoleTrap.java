@@ -3,8 +3,10 @@ package zimnycat.reznya.utils;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BedItem;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
+import zimnycat.reznya.base.Manager;
 import zimnycat.reznya.base.UtilBase;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.events.TickEvent;
@@ -29,7 +31,8 @@ public class HoleTrap extends UtilBase {
     @Subscribe
     public void onTick(TickEvent e) {
         delay.setDelay((long) setting("delay").num().value);
-        if (!delay.check()) return;
+        if (!delay.check() || mc.options.useKey.isPressed()
+                || (mc.player.getMainHandStack().getItem() instanceof BedItem && Manager.getUtilByName("AutoBed").isEnabled())) return;
 
         for (PlayerEntity player : mc.world.getPlayers()) {
             if (mc.player.distanceTo(player) >= 8 || player == mc.player || player.getBlockPos().equals(mc.player.getBlockPos())
