@@ -8,6 +8,8 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import zimnycat.reznya.base.Manager;
 import zimnycat.reznya.base.UtilBase;
+import zimnycat.reznya.base.Utilrun;
+import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.events.TickEvent;
 import zimnycat.reznya.libs.Delay;
@@ -24,7 +26,8 @@ public class HoleTrap extends UtilBase {
         super(
                 "HoleTrap", "Traps players in holes",
                 new SettingNum("delay", 100, 1, 1000),
-                new SettingNum("range", 5, 1, 6)
+                new SettingNum("range", 5, 1, 6),
+                new SettingBool("notify", true)
         );
     }
 
@@ -45,12 +48,11 @@ public class HoleTrap extends UtilBase {
             BlockPos playerPos = player.getBlockPos();
 
             List<BlockPos> poses = Arrays.asList(
+                    playerPos.up(2),
                     playerPos.north(),
                     playerPos.east(),
                     playerPos.south(),
-                    playerPos.west(),
-                    playerPos.down(),
-                    playerPos.up(2)
+                    playerPos.west()
             );
 
             for (BlockPos pos : poses) {
@@ -60,8 +62,10 @@ public class HoleTrap extends UtilBase {
                 if (mc.world.getBlockState(pos).isAir() && Math.sqrt(pos.getSquaredDistance(mc.player.getPos())) < setting("range").num().value) {
                     Integer slot = Finder.find(Items.OBSIDIAN, true);
                     if (slot == null) return;
-                    WorldLib.placeBlock(pos, slot);
-                    return;
+                    if (WorldLib.placeBlock(pos, slot)) {
+                        if (setting("notify").bool().value) clientMessage("Placed a block to trap " + Utilrun.highlight(player.getDisplayName().getString()));
+                        return;
+                    }
                 }
             }
         }
