@@ -11,7 +11,7 @@ import zimnycat.reznya.commands.SayCmd;
 import zimnycat.reznya.utils.AutoBed;
 import zimnycat.reznya.utils.AutoRefill;
 import zimnycat.reznya.utils.HoleTrap;
-import zimnycat.reznya.utils.SelfAnvil;
+import zimnycat.reznya.utils.SelfTrap;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,7 +37,7 @@ public class Utilrun implements ModInitializer {
 		Manager.utils.add(new AutoBed());
 		Manager.utils.add(new AutoRefill());
 		Manager.utils.add(new HoleTrap());
-		Manager.utils.add(new SelfAnvil());
+		Manager.utils.add(new SelfTrap());
 
 		Manager.loadData();
 		bus.register(new Manager());
