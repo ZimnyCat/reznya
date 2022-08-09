@@ -18,7 +18,8 @@ public class SelfTrap extends UtilBase {
     public SelfTrap() {
         super(
                 "SelfTrap", "Traps you in obsidian",
-                new SettingBool("selfAnvil", false)
+                new SettingBool("selfAnvil", false),
+                new SettingBool("autoCenter", true)
         );
     }
 
@@ -29,10 +30,12 @@ public class SelfTrap extends UtilBase {
 
         if (obsidianSlot == null) return;
 
-        double x = Math.floor(mc.player.getX());
-        double z = Math.floor(mc.player.getZ());
-        mc.player.updatePosition(x + 0.5, mc.player.getY(), z + 0.5);
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x + 0.5, mc.player.getY(), z + 0.5, mc.player.isOnGround()));
+        if (setting("autoCenter").bool().value) {
+            double x = Math.floor(mc.player.getX());
+            double z = Math.floor(mc.player.getZ());
+            mc.player.updatePosition(x + 0.5, mc.player.getY(), z + 0.5);
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x + 0.5, mc.player.getY(), z + 0.5, mc.player.isOnGround()));
+        }
 
         BlockPos up = playerPos.up(setting("selfAnvil").bool().value ? 3 : 2);
         if (mc.world.getBlockState(up).isAir() && WorldLib.placeBlock(up, obsidianSlot)) return;
