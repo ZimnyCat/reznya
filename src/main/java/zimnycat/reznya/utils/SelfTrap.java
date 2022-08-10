@@ -19,15 +19,16 @@ public class SelfTrap extends UtilBase {
         super(
                 "SelfTrap", "Traps you in obsidian",
                 new SettingBool("selfAnvil", false),
-                new SettingBool("autoCenter", true)
+                new SettingBool("autoCenter", true),
+                new SettingBool("holeCheck", false)
         );
     }
 
     @Subscribe
     public void onTick(TickEvent event) {
-        Integer obsidianSlot = Finder.find(Items.OBSIDIAN, true);
         BlockPos playerPos = mc.player.getBlockPos();
-
+        if (!WorldLib.isHole(playerPos) && setting("holeCheck").bool().value) return;
+        Integer obsidianSlot = Finder.find(Items.OBSIDIAN, true);
         if (obsidianSlot == null) return;
 
         if (setting("autoCenter").bool().value) {
