@@ -26,6 +26,8 @@ public class SelfTrap extends UtilBase {
 
     @Subscribe
     public void onTick(TickEvent event) {
+        if (mc.player.getY() != Math.floor(mc.player.getY())) return;
+
         BlockPos playerPos = mc.player.getBlockPos();
         if (!WorldLib.isHole(playerPos) && setting("holeCheck").bool().value) return;
         Integer obsidianSlot = Finder.find(Items.OBSIDIAN, true);
@@ -51,6 +53,9 @@ public class SelfTrap extends UtilBase {
         poses.forEach(pos -> {
             if (mc.world.getBlockState(pos).isAir() && WorldLib.placeBlock(pos, obsidianSlot)) return;
             if (mc.world.getBlockState(pos.up()).isAir() && WorldLib.placeBlock(pos.up(), obsidianSlot)) return;
+
+            if (!setting("selfAnvil").bool().value) return;
+            if (mc.world.getBlockState(pos.up(2)).isAir() && WorldLib.placeBlock(pos.up(2), obsidianSlot)) return;
         });
 
         if (setting("selfAnvil").bool().value
