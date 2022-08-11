@@ -8,10 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zimnycat.reznya.commands.NearCmd;
 import zimnycat.reznya.commands.SayCmd;
-import zimnycat.reznya.utils.AutoBed;
-import zimnycat.reznya.utils.AutoRefill;
-import zimnycat.reznya.utils.HoleTrap;
-import zimnycat.reznya.utils.SelfTrap;
+import zimnycat.reznya.utils.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,6 +35,7 @@ public class Utilrun implements ModInitializer {
 		Manager.utils.add(new AutoRefill());
 		Manager.utils.add(new HoleTrap());
 		Manager.utils.add(new SelfTrap());
+		Manager.utils.add(new FakePlayer());
 
 		Manager.loadData();
 		bus.register(new Manager());
