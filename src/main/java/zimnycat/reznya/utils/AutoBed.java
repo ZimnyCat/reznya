@@ -33,7 +33,7 @@ public class AutoBed extends UtilBase {
     @Subscribe
     public void onTick(TickEvent e) {
         delay.setDelay((long) setting("delay").num().value);
-        if (!mc.world.getRegistryKey().getValue().getPath().contains("nether") || !delay.check()) return;
+        if (mc.world.getRegistryKey().getValue().getPath().contains("overworld") || !delay.check()) return;
 
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (mc.player.isSneaking() || p == mc.player || p.getBlockPos().equals(mc.player.getBlockPos())) continue;
