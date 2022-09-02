@@ -25,8 +25,8 @@ public class AutoBed extends UtilBase {
     public AutoBed() {
         super(
                 "AutoBed", "Places beds to kill players",
-                new SettingNum("delay", 100, 1, 1000),
-                new SettingNum("range", 5, 1, 6)
+                new SettingNum("delay", 50, 0, 100),
+                new SettingNum("range", 5, 1, 8)
         );
     }
 
@@ -36,18 +36,10 @@ public class AutoBed extends UtilBase {
         if (mc.world.getRegistryKey().getValue().getPath().contains("overworld") || !delay.check()) return;
 
         for (PlayerEntity p : mc.world.getPlayers()) {
-            if (mc.player.isSneaking() || p == mc.player || p.getBlockPos().equals(mc.player.getBlockPos())) continue;
+            if (mc.player.isSneaking() || p == mc.player || p.getBlockPos().equals(mc.player.getBlockPos()) || p.isDead()
+                    || mc.player.distanceTo(p) > 8) continue;
 
             BlockPos up = p.getBlockPos().up();
-            if (mc.player.distanceTo(p) < setting("range").num().value && mc.world.getBlockState(up).getBlock().asItem() instanceof BedItem) {
-                mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
-                        new BlockHitResult(new Vec3d(up.getX(), up.getY(), up.getZ()), Direction.UP, up, true)
-                );
-                break;
-            }
-
-            if (mc.player.distanceTo(p) >= 8 || p.isDead() || !mc.world.getBlockState(up).isAir()
-                    || !(mc.player.getMainHandStack().getItem() instanceof BedItem)) continue;
 
             HashMap<BlockPos, Float> poses = new HashMap<>();
             poses.put(up.north(), 0f);
@@ -56,8 +48,10 @@ public class AutoBed extends UtilBase {
             poses.put(up.west(), -90f);
 
             for (Map.Entry pos : poses.entrySet()) {
+                if (!mc.world.getBlockState(up).isAir() || !(mc.player.getMainHandStack().getItem() instanceof BedItem)) break;
+
                 BlockPos pos2 = (BlockPos) pos.getKey();
-                if (Math.sqrt(pos2.getSquaredDistance(mc.player.getPos())) >= setting("range").num().value) continue;
+                if (Math.sqrt(pos2.getSquaredDistance(mc.player.getPos())) > setting("range").num().value) continue;
 
                 if (mc.world.getBlockState(pos2).isAir() || mc.world.getBlockState(pos2).getBlock().equals(Blocks.FIRE)) {
                     mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
@@ -65,6 +59,13 @@ public class AutoBed extends UtilBase {
                     );
                     if (WorldLib.placeBlock(pos2, mc.player.getInventory().selectedSlot)) break;
                 }
+            }
+
+            if (mc.player.distanceTo(p) <= setting("range").num().value && mc.world.getBlockState(up).getBlock().asItem() instanceof BedItem) {
+                mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
+                        new BlockHitResult(new Vec3d(up.getX(), up.getY(), up.getZ()), Direction.UP, up, true)
+                );
+                break;
             }
         }
     }
