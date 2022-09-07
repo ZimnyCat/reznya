@@ -21,6 +21,7 @@ import java.util.Map;
 
 public class AutoBed extends UtilBase {
     Delay delay = new Delay();
+    BlockPos lastBed = null;
 
     public AutoBed() {
         super(
@@ -57,16 +58,29 @@ public class AutoBed extends UtilBase {
                     mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
                             (float) pos.getValue(), mc.player.getPitch(), true)
                     );
-                    if (WorldLib.placeBlock(pos2, mc.player.getInventory().selectedSlot)) break;
+                    if (WorldLib.placeBlock(pos2, mc.player.getInventory().selectedSlot)) {
+                        lastBed = pos2;
+                        break;
+                    }
                 }
             }
 
+            /*
             if (mc.player.distanceTo(p) <= setting("range").num().value && mc.world.getBlockState(up).getBlock().asItem() instanceof BedItem) {
                 mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
                         new BlockHitResult(new Vec3d(up.getX(), up.getY(), up.getZ()), Direction.UP, up, true)
                 );
                 break;
             }
+             */
+        }
+
+        if (lastBed != null && Math.sqrt(lastBed.getSquaredDistance(mc.player.getPos())) <= setting("range").num().value
+                && mc.world.getBlockState(lastBed).getBlock().asItem() instanceof BedItem) {
+            mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
+                    new BlockHitResult(new Vec3d(lastBed.getX(), lastBed.getY(), lastBed.getZ()), Direction.UP, lastBed, true)
+            );
+            lastBed = null;
         }
     }
 }
