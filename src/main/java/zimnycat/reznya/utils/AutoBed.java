@@ -64,15 +64,6 @@ public class AutoBed extends UtilBase {
                     }
                 }
             }
-
-            /*
-            if (mc.player.distanceTo(p) <= setting("range").num().value && mc.world.getBlockState(up).getBlock().asItem() instanceof BedItem) {
-                mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
-                        new BlockHitResult(new Vec3d(up.getX(), up.getY(), up.getZ()), Direction.UP, up, true)
-                );
-                break;
-            }
-             */
         }
 
         if (lastBed != null && Math.sqrt(lastBed.getSquaredDistance(mc.player.getPos())) <= setting("range").num().value
