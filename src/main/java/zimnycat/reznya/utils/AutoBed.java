@@ -26,7 +26,7 @@ public class AutoBed extends UtilBase {
     public AutoBed() {
         super(
                 "AutoBed", "Places beds to kill players",
-                new SettingNum("delay", 50, 0, 100),
+                new SettingNum("delay", 10, 0, 100),
                 new SettingNum("range", 5, 1, 8)
         );
     }
@@ -35,6 +35,17 @@ public class AutoBed extends UtilBase {
     public void onTick(TickEvent e) {
         delay.setDelay((long) setting("delay").num().value);
         if (mc.world.getRegistryKey().getValue().getPath().contains("overworld") || !delay.check()) return;
+
+        if (lastBed != null) {
+            if (Math.sqrt(lastBed.getSquaredDistance(mc.player.getPos())) > setting("range").num().value
+                    || !(mc.world.getBlockState(lastBed).getBlock().asItem() instanceof BedItem)) lastBed = null;
+            else {
+                mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
+                        new BlockHitResult(new Vec3d(lastBed.getX(), lastBed.getY(), lastBed.getZ()), Direction.UP, lastBed, true)
+                );
+                return;
+            }
+        }
 
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (mc.player.isSneaking() || p == mc.player || p.getBlockPos().equals(mc.player.getBlockPos()) || p.isDead()
@@ -64,14 +75,6 @@ public class AutoBed extends UtilBase {
                     }
                 }
             }
-        }
-
-        if (lastBed != null && Math.sqrt(lastBed.getSquaredDistance(mc.player.getPos())) <= setting("range").num().value
-                && mc.world.getBlockState(lastBed).getBlock().asItem() instanceof BedItem) {
-            mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
-                    new BlockHitResult(new Vec3d(lastBed.getX(), lastBed.getY(), lastBed.getZ()), Direction.UP, lastBed, true)
-            );
-            lastBed = null;
         }
     }
 }
