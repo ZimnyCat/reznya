@@ -27,7 +27,8 @@ public class AutoBed extends UtilBase {
         super(
                 "AutoBed", "Places beds to kill players",
                 new SettingNum("delay", 10, 0, 100),
-                new SettingNum("range", 5, 1, 8)
+                new SettingNum("range", 5, 1, 8),
+                new SettingNum("maxHealth", 34, 5, 34)
         );
     }
 
@@ -49,7 +50,7 @@ public class AutoBed extends UtilBase {
 
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (mc.player.isSneaking() || p == mc.player || p.getBlockPos().equals(mc.player.getBlockPos()) || p.isDead()
-                    || mc.player.distanceTo(p) > 8) continue;
+                    || mc.player.distanceTo(p) > 8 || (p.getHealth() + p.getAbsorptionAmount()) > setting("maxHealth").num().value) continue;
 
             BlockPos up = p.getBlockPos().up();
 
