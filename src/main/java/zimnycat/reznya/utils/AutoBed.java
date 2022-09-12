@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import zimnycat.reznya.base.UtilBase;
+import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.events.TickEvent;
 import zimnycat.reznya.libs.Delay;
@@ -28,7 +29,8 @@ public class AutoBed extends UtilBase {
                 "AutoBed", "Places beds to kill players",
                 new SettingNum("delay", 10, 0, 100),
                 new SettingNum("range", 5, 1, 8),
-                new SettingNum("maxHealth", 34, 5, 34)
+                new SettingNum("maxHealth", 34, 5, 34),
+                new SettingBool("autoSwitch", false)
         );
     }
 
@@ -53,6 +55,7 @@ public class AutoBed extends UtilBase {
                     || mc.player.distanceTo(p) > 8 || (p.getHealth() + p.getAbsorptionAmount()) > setting("maxHealth").num().value) continue;
 
             BlockPos up = p.getBlockPos().up();
+            if (!mc.world.getBlockState(up).isAir()) continue;
 
             HashMap<BlockPos, Float> poses = new HashMap<>();
             poses.put(up.north(), 0f);
@@ -61,12 +64,22 @@ public class AutoBed extends UtilBase {
             poses.put(up.west(), -90f);
 
             for (Map.Entry pos : poses.entrySet()) {
-                if (!mc.world.getBlockState(up).isAir() || !(mc.player.getMainHandStack().getItem() instanceof BedItem)) break;
-
                 BlockPos pos2 = (BlockPos) pos.getKey();
                 if (Math.sqrt(pos2.getSquaredDistance(mc.player.getPos())) > setting("range").num().value) continue;
 
                 if (mc.world.getBlockState(pos2).isAir() || mc.world.getBlockState(pos2).getBlock().equals(Blocks.FIRE)) {
+                    if (!(mc.player.getMainHandStack().getItem() instanceof BedItem)) {
+                        if (setting("autoSwitch").bool().value) {
+                            Integer bedSlot = null;
+
+                            for (int slot = 0; slot < 9; slot++)
+                                if (mc.player.getInventory().getStack(slot).getItem() instanceof BedItem) bedSlot = slot;
+
+                            if (bedSlot == null) return;
+                            mc.player.getInventory().selectedSlot = bedSlot;
+                        } else return;
+                    }
+
                     mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(
                             (float) pos.getValue(), mc.player.getPitch(), true)
                     );
