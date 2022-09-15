@@ -23,6 +23,7 @@ import java.util.Map;
 public class AutoBed extends UtilBase {
     Delay delay = new Delay();
     BlockPos lastBed = null;
+    Integer prevSlot = null;
 
     public AutoBed() {
         super(
@@ -75,7 +76,15 @@ public class AutoBed extends UtilBase {
                             for (int slot = 0; slot < 9; slot++)
                                 if (mc.player.getInventory().getStack(slot).getItem() instanceof BedItem) bedSlot = slot;
 
-                            if (bedSlot == null) return;
+                            if (bedSlot == null) {
+                                if (prevSlot != null) {
+                                    mc.player.getInventory().selectedSlot = prevSlot;
+                                    prevSlot = null;
+                                }
+                                return;
+                            }
+
+                            prevSlot = mc.player.getInventory().selectedSlot;
                             mc.player.getInventory().selectedSlot = bedSlot;
                         } else return;
                     }
