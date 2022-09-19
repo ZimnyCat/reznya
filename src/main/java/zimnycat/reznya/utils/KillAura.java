@@ -19,12 +19,18 @@ public class KillAura extends UtilBase {
         super(
                 "KillAura", "Attacks nearby players",
                 new SettingNum("range", 5, 1, 10),
-                new SettingBool("weaponOnly", false)
+                new SettingBool("weaponOnly", false),
+                new SettingBool("disableOnDeath", true)
         );
     }
 
     @Subscribe
     public void onTick(TickEvent e) {
+        if (setting("disableOnDeath").bool().value && mc.player.isDead()) {
+            toggle();
+            return;
+        }
+
         if (mc.player.getAttackCooldownProgress(mc.getTickDelta()) != 1.0f) return;
 
         Item mainHand = mc.player.getMainHandStack().getItem();

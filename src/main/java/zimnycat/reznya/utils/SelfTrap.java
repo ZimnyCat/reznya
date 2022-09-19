@@ -20,12 +20,18 @@ public class SelfTrap extends UtilBase {
                 "SelfTrap", "Traps you in obsidian",
                 new SettingBool("selfAnvil", false),
                 new SettingBool("autoCenter", true),
-                new SettingBool("holeCheck", false)
+                new SettingBool("holeCheck", false),
+                new SettingBool("disableOnDeath", true)
         );
     }
 
     @Subscribe
     public void onTick(TickEvent event) {
+        if (setting("disableOnDeath").bool().value && mc.player.isDead()) {
+            toggle();
+            return;
+        }
+
         if (mc.player.getY() != Math.floor(mc.player.getY())) return;
 
         BlockPos playerPos = mc.player.getBlockPos();
