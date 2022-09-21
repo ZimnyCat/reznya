@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import zimnycat.reznya.base.UtilBase;
 import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.events.TickEvent;
+import zimnycat.reznya.libs.Delay;
 import zimnycat.reznya.libs.Finder;
 import zimnycat.reznya.libs.WorldLib;
 
@@ -15,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SelfTrap extends UtilBase {
+    Delay autoCenterDelay = new Delay();
+
     public SelfTrap() {
         super(
                 "SelfTrap", "Traps you in obsidian",
@@ -39,7 +42,8 @@ public class SelfTrap extends UtilBase {
         Integer obsidianSlot = Finder.find(Items.OBSIDIAN, true);
         if (obsidianSlot == null) return;
 
-        if (setting("autoCenter").bool().value) {
+        autoCenterDelay.setDelay(3000);
+        if (setting("autoCenter").bool().value && autoCenterDelay.check()) {
             double x = Math.floor(mc.player.getX());
             double z = Math.floor(mc.player.getZ());
             mc.player.updatePosition(x + 0.5, mc.player.getY(), z + 0.5);
