@@ -42,8 +42,8 @@ public class SelfTrap extends UtilBase {
         Integer obsidianSlot = Finder.find(Items.OBSIDIAN, true);
         if (obsidianSlot == null) return;
 
-        autoCenterDelay.setDelay(3000);
-        if (setting("autoCenter").bool().value && autoCenterDelay.check()) {
+        autoCenterDelay.setDelay(1000);
+        if (setting("autoCenter").bool().value && !setting("holeCheck").bool().value && autoCenterDelay.check()) {
             double x = Math.floor(mc.player.getX());
             double z = Math.floor(mc.player.getZ());
             mc.player.updatePosition(x + 0.5, mc.player.getY(), z + 0.5);
