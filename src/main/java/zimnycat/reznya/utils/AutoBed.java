@@ -70,7 +70,7 @@ public class AutoBed extends UtilBase {
 
                 if (mc.world.getBlockState(pos2).isAir() || mc.world.getBlockState(pos2).getBlock().equals(Blocks.FIRE)) {
                     if (!(mc.player.getMainHandStack().getItem() instanceof BedItem)) {
-                        if (setting("autoSwitch").bool().value) {
+                        if (setting("autoSwitch").bool().value && !mc.options.useKey.isPressed()) {
                             Integer bedSlot = null;
 
                             for (int slot = 0; slot < 9; slot++)
