@@ -7,6 +7,10 @@ import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.ArrayUtils;
+import zimnycat.reznya.Utilrun;
+import zimnycat.reznya.base.commands.AliasCmd;
+import zimnycat.reznya.base.commands.BindCmd;
+import zimnycat.reznya.base.commands.UtilCmd;
 import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.base.settings.SettingString;
@@ -25,6 +29,7 @@ public class Manager {
     public static List<UtilBase> utils = new ArrayList<>();
 
     public static void loadData() {
+        commands.add(new AliasCmd());
         commands.add(new BindCmd());
         commands.add(new UtilCmd());
 
@@ -67,7 +72,17 @@ public class Manager {
             return;
         }
 
-        runCommand(msg.replace(Utilrun.prefix, ""));
+        String[] split = msg.replace(Utilrun.prefix, "").split(" ");
+
+        ModFile modFile = new ModFile("aliases.json");
+        if (modFile.readAsList().isEmpty()) modFile.write("{}", ModFile.WriteMode.OVERWRITE);
+        JsonObject aliases = JsonParser.parseString(modFile.readAsString()).getAsJsonObject();
+
+        aliases.entrySet().forEach(alias -> {
+            if (split[0].equals(alias.getKey())) split[0] = alias.getValue().getAsString();
+        });
+
+        runCommand(String.join(" ", split));
     }
 
     @Subscribe
@@ -102,22 +117,22 @@ public class Manager {
     }
 
     public static void runCommand(String cmd) {
+        mc.inGameHud.getChatHud().addMessage(Text.of(Formatting.GRAY + cmd));
         String[] split = cmd.split(" ");
-        commands.forEach(c -> {
-            if (c.getName().equals(split[0])) {
-                mc.inGameHud.getChatHud().addMessage(Text.of(Formatting.GRAY + cmd));
-
-                try { c.run(ArrayUtils.remove(split, 0)); }
-                catch (Exception e) {
-                    c.clientMessage("Exception caught! Check logs for more info.");
-                    e.printStackTrace();
-                }
-            }
-        });
+        try {
+            commands.stream().filter(command -> command.getName().startsWith(split[0])).toList().get(0).run(ArrayUtils.remove(split, 0));
+        } catch (ArrayIndexOutOfBoundsException uwu) {
+            mc.inGameHud.getChatHud().addMessage(Text.of(Utilrun.highlight(">> ") + "No such command! Try " + Utilrun.highlight(Utilrun.prefix)));
+        } catch (Exception e) {
+            mc.inGameHud.getChatHud().addMessage(Text.of(Utilrun.highlight(">> ") + "Exception caught! Check logs for more info."));
+        }
     }
 
     public static UtilBase getUtilByName(String uName) {
-        for (UtilBase util : utils) if (util.getName().equalsIgnoreCase(uName)) return util;
-        return null;
+        try {
+            return utils.stream().filter(util -> util.getName().toLowerCase().startsWith(uName.toLowerCase())).toList().get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

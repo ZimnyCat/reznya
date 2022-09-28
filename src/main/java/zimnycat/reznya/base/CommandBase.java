@@ -2,6 +2,7 @@ package zimnycat.reznya.base;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
+import zimnycat.reznya.Utilrun;
 
 public class CommandBase {
     public MinecraftClient mc = MinecraftClient.getInstance();

@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "zimnycat.reznya.base.Utilrun"
+      "zimnycat.reznya.Utilrun"
     ]
   },
   "mixins": [

@@ -2,7 +2,7 @@ package zimnycat.reznya.commands;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import zimnycat.reznya.base.CommandBase;
-import zimnycat.reznya.base.Utilrun;
+import zimnycat.reznya.Utilrun;
 
 import java.util.Comparator;
 import java.util.List;

@@ -8,7 +8,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import zimnycat.reznya.base.Manager;
 import zimnycat.reznya.base.UtilBase;
-import zimnycat.reznya.base.Utilrun;
+import zimnycat.reznya.Utilrun;
 import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.events.TickEvent;

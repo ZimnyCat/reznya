@@ -1,11 +1,11 @@
 package zimnycat.reznya.libs;
 
-import zimnycat.reznya.base.Utilrun;
+import zimnycat.reznya.Utilrun;
 
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ModFile {
@@ -26,14 +26,12 @@ public class ModFile {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     public String readAsString() {
         try {
-            StringBuilder builder = new StringBuilder();
-            Files.readAllLines(path).forEach(builder::append);
-            return builder.toString();
+            return String.join("\n", Files.readAllLines(path));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,12 +39,10 @@ public class ModFile {
     }
 
     public void write(String content, WriteMode mode) {
-        try {
+        try(FileWriter fw = new FileWriter(path.toFile())) {
             String oldContent = (mode == WriteMode.APPEND ? new String(Files.readAllBytes(path)) : "");
-            FileWriter fw = new FileWriter(path.toFile());
             fw.write(oldContent + content);
-            fw.close();
-        } catch (Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

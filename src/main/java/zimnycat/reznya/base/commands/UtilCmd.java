@@ -1,5 +1,10 @@
-package zimnycat.reznya.base;
+package zimnycat.reznya.base.commands;
 
+import zimnycat.reznya.Utilrun;
+import zimnycat.reznya.base.CommandBase;
+import zimnycat.reznya.base.Manager;
+import zimnycat.reznya.base.SettingBase;
+import zimnycat.reznya.base.UtilBase;
 import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.base.settings.SettingString;
@@ -49,6 +54,8 @@ public class UtilCmd extends CommandBase {
                         clientMessage(util.getName() + " has no settings");
                         return;
                     }
+
+                    clientMessage(Utilrun.highlight(util.getName()) + " settings:");
                     for (SettingBase setting : util.getSettings()) {
                         if (setting instanceof SettingNum)
                             clientMessage(setting.name + Utilrun.highlight(" = ") + setting.num().value
