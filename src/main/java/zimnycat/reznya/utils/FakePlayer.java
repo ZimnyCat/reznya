@@ -5,6 +5,7 @@ import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import zimnycat.reznya.base.UtilBase;
 import zimnycat.reznya.base.settings.SettingBool;
+import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.base.settings.SettingString;
 
 import java.util.UUID;
@@ -15,7 +16,8 @@ public final class FakePlayer extends UtilBase {
     public FakePlayer() {
         super("FakePlayer", "Spawns client-sided player in your world",
                 new SettingString("name", "popbob"),
-                new SettingBool("copyInventory", false)
+                new SettingBool("copyInventory", false),
+                new SettingNum("health", 20, 1, 34)
         );
     }
 
@@ -28,7 +30,7 @@ public final class FakePlayer extends UtilBase {
         Entity entity = new OtherClientPlayerEntity(mc.world,
                 new GameProfile(UUID.randomUUID(), setting("name").string().value),
                 mc.player.getPublicKey()) {{
-                    this.setHealth(20);
+                    this.setHealth((float) setting("health").num().value);
                     this.setPosition(mc.player.getPos());
                     this.setYaw(mc.player.getYaw());
                     this.setPitch(mc.player.getPitch());
