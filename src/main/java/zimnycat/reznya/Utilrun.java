@@ -36,6 +36,7 @@ public class Utilrun implements ModInitializer {
 		Manager.utils.add(new AutoRefill());
 		Manager.utils.add(new HoleTrap());
 		Manager.utils.add(new KillAura());
+		Manager.utils.add(new PopCounter());
 		Manager.utils.add(new SelfTrap());
 		Manager.utils.add(new FakePlayer());
 
