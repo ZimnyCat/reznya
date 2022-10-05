@@ -15,6 +15,7 @@ import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.events.TickEvent;
 import zimnycat.reznya.libs.Delay;
+import zimnycat.reznya.libs.TickQueue;
 import zimnycat.reznya.libs.WorldLib;
 
 import java.util.HashMap;
@@ -37,6 +38,8 @@ public class AutoBed extends UtilBase {
 
     @Subscribe
     public void onTick(TickEvent e) {
+        if (!TickQueue.getCurrentUtil().equalsIgnoreCase(getName())) return;
+
         delay.setDelay((long) setting("delay").num().value);
         if (mc.world.getRegistryKey().getValue().getPath().contains("overworld") || !delay.check()) return;
 

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import zimnycat.reznya.base.Manager;
 import zimnycat.reznya.commands.NearCmd;
 import zimnycat.reznya.commands.SayCmd;
+import zimnycat.reznya.libs.TickQueue;
 import zimnycat.reznya.utils.*;
 
 import java.nio.file.Path;
@@ -42,6 +43,7 @@ public class Utilrun implements ModInitializer {
 
 		Manager.loadData();
 		bus.register(new Manager());
+		bus.register(new TickQueue());
 	}
 
 	public static String highlight(String str) { return Formatting.RED + str + Formatting.WHITE; }

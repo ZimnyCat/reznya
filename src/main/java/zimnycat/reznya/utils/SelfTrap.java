@@ -10,6 +10,7 @@ import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.events.TickEvent;
 import zimnycat.reznya.libs.Delay;
 import zimnycat.reznya.libs.Finder;
+import zimnycat.reznya.libs.TickQueue;
 import zimnycat.reznya.libs.WorldLib;
 
 import java.util.Arrays;
@@ -30,6 +31,8 @@ public class SelfTrap extends UtilBase {
 
     @Subscribe
     public void onTick(TickEvent event) {
+        if (!TickQueue.getCurrentUtil().equalsIgnoreCase(getName())) return;
+
         if (setting("disableOnDeath").bool().value && mc.player.isDead()) {
             toggle();
             return;

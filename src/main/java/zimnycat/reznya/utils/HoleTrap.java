@@ -14,6 +14,7 @@ import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.events.TickEvent;
 import zimnycat.reznya.libs.Delay;
 import zimnycat.reznya.libs.Finder;
+import zimnycat.reznya.libs.TickQueue;
 import zimnycat.reznya.libs.WorldLib;
 
 import java.util.Arrays;
@@ -33,6 +34,8 @@ public class HoleTrap extends UtilBase {
 
     @Subscribe
     public void onTick(TickEvent e) {
+        if (!TickQueue.getCurrentUtil().equalsIgnoreCase(getName())) return;
+
         delay.setDelay((long) setting("delay").num().value);
         if (!delay.check() || mc.options.useKey.isPressed()
                 || (mc.player.getMainHandStack().getItem() instanceof BedItem && Manager.getUtilByName("AutoBed").isEnabled())) return;
