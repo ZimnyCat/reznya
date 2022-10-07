@@ -59,7 +59,8 @@ public class AutoBed extends UtilBase {
                     || mc.player.distanceTo(p) > 8 || (p.getHealth() + p.getAbsorptionAmount()) > setting("maxHealth").num().value) continue;
 
             BlockPos up = p.getBlockPos().up();
-            if (!mc.world.getBlockState(up).isAir()) continue;
+            if (!mc.world.getBlockState(up).isAir() || (!mc.world.getBlockState(p.getBlockPos()).isAir()
+                    && !mc.world.getBlockState(p.getBlockPos()).getBlock().equals(Blocks.FIRE))) continue;
 
             HashMap<BlockPos, Float> poses = new HashMap<>();
             poses.put(up.north(), 0f);
