@@ -56,7 +56,11 @@ public class AutoBed extends UtilBase {
 
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (mc.player.isSneaking() || p == mc.player || p.getBlockPos().equals(mc.player.getBlockPos()) || p.isDead()
-                    || mc.player.distanceTo(p) > 8 || (p.getHealth() + p.getAbsorptionAmount()) > setting("maxHealth").num().value) continue;
+                    || mc.player.distanceTo(p) > 8 || (p.getHealth() + p.getAbsorptionAmount()) > setting("maxHealth").num().value
+                    || ((p.getX() - Math.floor(p.getX())) > 0.7 && !mc.world.getBlockState(p.getBlockPos().east()).isAir())
+                    || ((p.getX() - Math.floor(p.getX())) < 0.3 && !mc.world.getBlockState(p.getBlockPos().west()).isAir())
+                    || ((p.getZ() - Math.floor(p.getZ())) > 0.7 && !mc.world.getBlockState(p.getBlockPos().south()).isAir())
+                    || ((p.getZ() - Math.floor(p.getZ())) < 0.3 && !mc.world.getBlockState(p.getBlockPos().north()).isAir())) continue;
 
             BlockPos up = p.getBlockPos().up();
             if (!mc.world.getBlockState(up).isAir() || (!mc.world.getBlockState(p.getBlockPos()).isAir()
