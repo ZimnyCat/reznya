@@ -11,7 +11,6 @@ import zimnycat.reznya.base.UtilBase;
 import zimnycat.reznya.base.settings.SettingBool;
 import zimnycat.reznya.base.settings.SettingNum;
 import zimnycat.reznya.events.TickEvent;
-import zimnycat.reznya.libs.TickQueue;
 
 import java.util.Comparator;
 
@@ -27,8 +26,6 @@ public class KillAura extends UtilBase {
 
     @Subscribe
     public void onTick(TickEvent e) {
-        if (!TickQueue.getCurrentUtil().equalsIgnoreCase(getName())) return;
-
         if (setting("disableOnDeath").bool().value && mc.player.isDead()) {
             toggle();
             return;

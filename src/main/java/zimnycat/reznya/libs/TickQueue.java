@@ -15,7 +15,6 @@ public class TickQueue {
     private final List<String> u = Arrays.asList(
             "AutoBed",
             "HoleTrap",
-            "KillAura",
             "SelfTrap"
     );
 
