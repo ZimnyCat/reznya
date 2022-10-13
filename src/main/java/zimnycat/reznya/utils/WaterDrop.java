@@ -5,7 +5,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -68,8 +67,6 @@ public class WaterDrop extends UtilBase {
         mc.player.setPitch(90);
         double playerX = Math.floor(mc.player.getX());
         double playerZ = Math.floor(mc.player.getZ());
-        mc.player.updatePosition(playerX + 0.5, mc.player.getY(), playerZ + 0.5);
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(playerX + 0.5, mc.player.getY(), playerZ + 0.5, mc.player.isOnGround()));
 
         mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, new BlockHitResult(
                 vec, Direction.UP, block, true
