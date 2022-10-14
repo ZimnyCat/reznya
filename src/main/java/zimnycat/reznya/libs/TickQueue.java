@@ -3,6 +3,7 @@ package zimnycat.reznya.libs;
 import com.google.common.eventbus.Subscribe;
 import zimnycat.reznya.base.Manager;
 import zimnycat.reznya.base.UtilBase;
+import zimnycat.reznya.commands.ToggleTQCmd;
 import zimnycat.reznya.events.TickEvent;
 
 import java.util.ArrayList;
@@ -28,5 +29,8 @@ public class TickQueue {
         else current++;
     }
 
-    public static String getCurrentUtil() { return queue.get(current).getName(); }
+    public static boolean check(String utilName) {
+        if (!ToggleTQCmd.tq) return true;
+        return queue.get(current).getName().equalsIgnoreCase(utilName);
+    }
 }

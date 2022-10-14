@@ -65,9 +65,6 @@ public class WaterDrop extends UtilBase {
         }
 
         mc.player.setPitch(90);
-        double playerX = Math.floor(mc.player.getX());
-        double playerZ = Math.floor(mc.player.getZ());
-
         mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, new BlockHitResult(
                 vec, Direction.UP, block, true
         ));

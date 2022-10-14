@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import zimnycat.reznya.base.Manager;
 import zimnycat.reznya.commands.NearCmd;
 import zimnycat.reznya.commands.SayCmd;
+import zimnycat.reznya.commands.ToggleTQCmd;
 import zimnycat.reznya.libs.TickQueue;
 import zimnycat.reznya.utils.*;
 
@@ -32,6 +33,7 @@ public class Utilrun implements ModInitializer {
 
 		Manager.commands.add(new NearCmd());
 		Manager.commands.add(new SayCmd());
+		Manager.commands.add(new ToggleTQCmd());
 
 		Manager.utils.add(new AutoBed());
 		Manager.utils.add(new AutoRefill());

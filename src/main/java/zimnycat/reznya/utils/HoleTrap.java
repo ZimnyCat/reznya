@@ -34,7 +34,7 @@ public class HoleTrap extends UtilBase {
 
     @Subscribe
     public void onTick(TickEvent e) {
-        if (!TickQueue.getCurrentUtil().equalsIgnoreCase(getName())) return;
+        if (!TickQueue.check(getName())) return;
 
         delay.setDelay((long) setting("delay").num().value);
         if (!delay.check() || mc.options.useKey.isPressed()

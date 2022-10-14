@@ -31,7 +31,7 @@ public class SelfTrap extends UtilBase {
 
     @Subscribe
     public void onTick(TickEvent event) {
-        if (!TickQueue.getCurrentUtil().equalsIgnoreCase(getName())) return;
+        if (!TickQueue.check(getName())) return;
 
         if (setting("disableOnDeath").bool().value && mc.player.isDead()) {
             toggle();
