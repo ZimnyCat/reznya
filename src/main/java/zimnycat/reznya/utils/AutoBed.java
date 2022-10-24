@@ -1,6 +1,7 @@
 package zimnycat.reznya.utils;
 
 import com.google.common.eventbus.Subscribe;
+import net.minecraft.block.BedBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BedItem;
@@ -45,7 +46,7 @@ public class AutoBed extends UtilBase {
 
         if (lastBed != null) {
             if (Math.sqrt(lastBed.getSquaredDistance(mc.player.getPos())) > setting("range").num().value
-                    || !(mc.world.getBlockState(lastBed).getBlock().asItem() instanceof BedItem)) lastBed = null;
+                    || !(mc.world.getBlockState(lastBed).getBlock() instanceof BedBlock)) lastBed = null;
             else {
                 mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
                         new BlockHitResult(new Vec3d(lastBed.getX(), lastBed.getY(), lastBed.getZ()), Direction.UP, lastBed, true)
@@ -56,13 +57,20 @@ public class AutoBed extends UtilBase {
 
         for (PlayerEntity p : mc.world.getPlayers()) {
             if (mc.player.isSneaking() || p == mc.player || p.getBlockPos().equals(mc.player.getBlockPos()) || p.isDead()
-                    || mc.player.distanceTo(p) > 8 || (p.getHealth() + p.getAbsorptionAmount()) > setting("maxHealth").num().value
+                    || mc.player.distanceTo(p) > 5 || (p.getHealth() + p.getAbsorptionAmount()) > setting("maxHealth").num().value
                     || ((p.getX() - Math.floor(p.getX())) > 0.7 && !mc.world.getBlockState(p.getBlockPos().east()).isAir())
                     || ((p.getX() - Math.floor(p.getX())) < 0.3 && !mc.world.getBlockState(p.getBlockPos().west()).isAir())
                     || ((p.getZ() - Math.floor(p.getZ())) > 0.7 && !mc.world.getBlockState(p.getBlockPos().south()).isAir())
                     || ((p.getZ() - Math.floor(p.getZ())) < 0.3 && !mc.world.getBlockState(p.getBlockPos().north()).isAir())) continue;
 
             BlockPos up = p.getBlockPos().up();
+            if (mc.world.getBlockState(up).getBlock() instanceof BedBlock) {
+                mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND,
+                        new BlockHitResult(new Vec3d(up.getX(), up.getY(), up.getZ()), Direction.UP, up, true)
+                );
+                break;
+            }
+
             if (!mc.world.getBlockState(up).isAir() || (!mc.world.getBlockState(p.getBlockPos()).isAir()
                     && !mc.world.getBlockState(p.getBlockPos()).getBlock().equals(Blocks.FIRE))) continue;
 
