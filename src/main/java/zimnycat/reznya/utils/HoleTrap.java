@@ -17,7 +17,7 @@ import zimnycat.reznya.libs.Finder;
 import zimnycat.reznya.libs.TickQueue;
 import zimnycat.reznya.libs.WorldLib;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HoleTrap extends UtilBase {
@@ -42,21 +42,16 @@ public class HoleTrap extends UtilBase {
 
         for (PlayerEntity player : mc.world.getPlayers()) {
             if (mc.player.distanceTo(player) >= 8 || player == mc.player || player.getBlockPos().equals(mc.player.getBlockPos())
-                    || player.getY() != Math.floor(player.getY())
-                    || (player.getX() - Math.floor(player.getX())) > 0.7
-                    || (player.getX() - Math.floor(player.getX())) < 0.3
-                    || (player.getZ() - Math.floor(player.getZ())) > 0.7
-                    || (player.getZ() - Math.floor(player.getZ())) < 0.3) continue;
+                    || player.getY() != Math.floor(player.getY())) continue;
 
             BlockPos playerPos = player.getBlockPos();
 
-            List<BlockPos> poses = Arrays.asList(
-                    playerPos.up(2),
-                    playerPos.north(),
-                    playerPos.east(),
-                    playerPos.south(),
-                    playerPos.west()
-            );
+            List<BlockPos> poses = new ArrayList<>();
+            poses.add(playerPos.up(2));
+            if ((player.getX() - Math.floor(player.getX())) < 0.7) poses.add(playerPos.east());
+            if ((player.getX() - Math.floor(player.getX())) > 0.3) poses.add(playerPos.west());
+            if ((player.getZ() - Math.floor(player.getZ())) < 0.7) poses.add(playerPos.south());
+            if ((player.getZ() - Math.floor(player.getZ())) > 0.3) poses.add(playerPos.north());
 
             for (BlockPos pos : poses) {
                 if (mc.world.getBlockState(pos).getBlock().equals(Blocks.OBSIDIAN)
