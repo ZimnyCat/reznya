@@ -7,6 +7,7 @@ import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zimnycat.reznya.base.Manager;
+import zimnycat.reznya.commands.ClearCmd;
 import zimnycat.reznya.commands.NearCmd;
 import zimnycat.reznya.commands.SayCmd;
 import zimnycat.reznya.commands.ToggleTQCmd;
@@ -31,6 +32,7 @@ public class Utilrun implements ModInitializer {
 			path.toFile().mkdirs();
 		}
 
+		Manager.commands.add(new ClearCmd());
 		Manager.commands.add(new NearCmd());
 		Manager.commands.add(new SayCmd());
 		Manager.commands.add(new ToggleTQCmd());
