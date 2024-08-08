@@ -31,7 +31,7 @@ public class KillAura extends UtilBase {
             return;
         }
 
-        if (mc.player.getAttackCooldownProgress(mc.getTickDelta()) != 1.0f) return;
+        if (mc.player.getAttackCooldownProgress(0.5f) != 1.0f) return;
 
         Item mainHand = mc.player.getMainHandStack().getItem();
         if (setting("weaponOnly").bool().value && !(mainHand instanceof SwordItem) && !(mainHand instanceof AxeItem)) return;

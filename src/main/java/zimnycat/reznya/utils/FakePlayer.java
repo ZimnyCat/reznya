@@ -28,8 +28,7 @@ public final class FakePlayer extends UtilBase {
             return;
         }
         Entity entity = new OtherClientPlayerEntity(mc.world,
-                new GameProfile(UUID.randomUUID(), setting("name").string().value),
-                mc.player.getPublicKey()) {{
+                new GameProfile(UUID.randomUUID(), setting("name").string().value)) {{
                     this.setHealth((float) setting("health").num().value);
                     this.setPosition(mc.player.getPos());
                     this.setYaw(mc.player.getYaw());
@@ -44,7 +43,7 @@ public final class FakePlayer extends UtilBase {
                     }
         }};
 
-        mc.world.addEntity(entity.getId(), entity);
+        mc.world.addEntity(entity);
         this.id = entity.getId();
     }
 

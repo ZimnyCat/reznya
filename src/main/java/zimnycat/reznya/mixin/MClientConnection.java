@@ -3,7 +3,7 @@ package zimnycat.reznya.mixin;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.ClientConnection;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,7 +18,7 @@ import zimnycat.reznya.events.SendPacketEvent;
 public class MClientConnection {
     private static MinecraftClient mc = MinecraftClient.getInstance();
 
-    @Inject(method = "send(Lnet/minecraft/network/Packet;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "send(Lnet/minecraft/network/packet/Packet;)V", at = @At("HEAD"), cancellable = true)
     private void send(Packet<?> packet, CallbackInfo ci) {
         SendPacketEvent event = new SendPacketEvent(packet);
         Utilrun.bus.post(event);

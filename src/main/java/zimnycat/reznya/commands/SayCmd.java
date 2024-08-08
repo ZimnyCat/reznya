@@ -14,6 +14,6 @@ public class SayCmd extends CommandBase {
 
         StringBuilder message = new StringBuilder();
         for (String s : args) message.append(s + " ");
-        mc.player.sendChatMessage(message.toString(), null);
+        mc.getNetworkHandler().sendChatMessage(message.toString());
     }
 }

@@ -10,7 +10,7 @@ import zimnycat.reznya.events.KeyPressEvent;
 
 @Mixin(Keyboard.class)
 public class MKeyboard {
-    @Inject(method = "onKey", at = @At(value = "INVOKE", target = "net/minecraft/client/util/InputUtil.isKeyPressed(JI)Z", ordinal = 5), cancellable = true)
+    @Inject(method = "onKey", at = @At("HEAD"), cancellable = true)
     private void onKey(long windowPointer, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
         KeyPressEvent event = new KeyPressEvent(key);
         Utilrun.bus.post(event);

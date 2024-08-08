@@ -1,6 +1,6 @@
 package zimnycat.reznya.events;
 
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import zimnycat.reznya.base.EventBase;
 
 public class SendPacketEvent extends EventBase {
