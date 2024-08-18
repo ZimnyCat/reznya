@@ -45,6 +45,7 @@ public class Utilrun implements ModInitializer {
 		Manager.utils.add(new SelfTrap());
 		Manager.utils.add(new FakePlayer());
 		Manager.utils.add(new WaterDrop());
+		Manager.utils.add(new NoFall());
 
 		Manager.loadData();
 		bus.register(new Manager());
